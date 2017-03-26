@@ -75,6 +75,7 @@ class Resolver:
         # else:
         #     ip = data['origin'].split(', ')[0]
         #     log.debug('Real external IP: %s' % ip)
+        print("Real ext IP from resolver.py:", real_ext_ip)
         return real_ext_ip
 
     async def resolve(self, host, port=80, family=None, qtype='A', logging=True):
