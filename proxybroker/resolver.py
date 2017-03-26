@@ -16,6 +16,7 @@ GeoData = namedtuple('GeoData', ['code', 'name'])
 _mmdb_reader = maxminddb.open_database(
     os.path.join(BASE_DIR, 'data', 'GeoLite2-Country.mmdb'))
 
+real_ext_ip = "54.163.143.222"
 
 class Resolver:
     """Async host resolver based on aiodns."""
@@ -61,20 +62,20 @@ class Resolver:
 
     async def get_real_ext_ip(self):
         """Return real external IP address."""
-        try:
-            # with aiohttp.Timeout(self._timeout, loop=self._loop),\
-            #         aiohttp.ClientSession(loop=self._loop) as session:
-            #     async with session.get('http://httpbin.org/ip') as resp:
-            #         data = await resp.json()
-            data = requests.get("http://httpbin.org/ip").json()
-        except Exception as e:
-            print('Could not get a external IP. Error: ' + str(e))
-            ip = "54.163.143.222"
-            print("Use IP:", ip)
-        else:
-            ip = data['origin'].split(', ')[0]
-            log.debug('Real external IP: %s' % ip)
-        return ip
+        # try:
+        #     # with aiohttp.Timeout(self._timeout, loop=self._loop),\
+        #     #         aiohttp.ClientSession(loop=self._loop) as session:
+        #     #     async with session.get('http://httpbin.org/ip') as resp:
+        #     #         data = await resp.json()
+        #     data = requests.get("http://httpbin.org/ip").json()
+        # except Exception as e:
+        #     print('Could not get a external IP. Error: ' + str(e))
+        #     ip = "54.163.143.222"
+        #     print("Use IP:", ip)
+        # else:
+        #     ip = data['origin'].split(', ')[0]
+        #     log.debug('Real external IP: %s' % ip)
+        return real_ext_ip
 
     async def resolve(self, host, port=80, family=None, qtype='A', logging=True):
         """Return resolving IP address(es) from host name."""
