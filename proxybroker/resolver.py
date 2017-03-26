@@ -67,8 +67,10 @@ class Resolver:
             #     async with session.get('http://httpbin.org/ip') as resp:
             #         data = await resp.json()
             data = requests.get("http://httpbin.org/ip").json()
-        except asyncio.TimeoutError as e:
-            raise RuntimeError('Could not get a external IP. Error: %s' % e)
+        except Exception as e:
+            print('Could not get a external IP. Error: ' + str(e))
+            ip = "54.163.143.222"
+            print("Use IP:", ip)
         else:
             ip = data['origin'].split(', ')[0]
             log.debug('Real external IP: %s' % ip)
