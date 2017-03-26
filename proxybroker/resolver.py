@@ -10,7 +10,7 @@ import maxminddb
 
 from .errors import *
 from .utils import log, BASE_DIR
-
+import requests
 
 GeoData = namedtuple('GeoData', ['code', 'name'])
 _mmdb_reader = maxminddb.open_database(
@@ -62,10 +62,11 @@ class Resolver:
     async def get_real_ext_ip(self):
         """Return real external IP address."""
         try:
-            with aiohttp.Timeout(self._timeout, loop=self._loop),\
-                    aiohttp.ClientSession(loop=self._loop) as session:
-                async with session.get('http://httpbin.org/ip') as resp:
-                    data = await resp.json()
+            # with aiohttp.Timeout(self._timeout, loop=self._loop),\
+            #         aiohttp.ClientSession(loop=self._loop) as session:
+            #     async with session.get('http://httpbin.org/ip') as resp:
+            #         data = await resp.json()
+            data = requests.get("http://httpbin.org/ip").json()
         except asyncio.TimeoutError as e:
             raise RuntimeError('Could not get a external IP. Error: %s' % e)
         else:
